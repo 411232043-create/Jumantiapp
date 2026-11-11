@@ -1,0 +1,109 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function userDoc() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function role() { return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) ? userDoc().id_role : null; }
+    function isActive() { return signedIn() && userDoc().status == 'aktif'; }
+    function isAdmin() { return isActive() && role() == 'admin'; }
+    function isKader() { return isActive() && role() == 'kader'; }
+    function isKadiv() { return isActive() && role() == 'kepala_divisi'; }
+    function wilayahIds() { return userDoc().get('wilayah_ids', []); }
+
+    match /roles/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+    match /divisi/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+    match /pengaturan/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    match /users/{id} {
+      // user docs dibuat/diubah via Admin SDK (API route). Client boleh membaca & update profil terbatas.
+      allow read: if isActive() && (isAdmin() || isKadiv() || request.auth.uid == id);
+      allow create: if isAdmin();
+      allow update: if isAdmin()
+        || (isActive() && request.auth.uid == id
+            && request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['nama', 'no_hp', 'alamat', 'updated_at']));
+      // wilayah_ids hanya boleh diubah admin / lewat penugasan (service check)
+      allow delete: if false;
+    }
+
+    match /wilayah/{id} {
+      allow read: if isActive();
+      allow write: if isAdmin();
+    }
+    match /kader_wilayah/{id} {
+      allow read: if isActive() && (isAdmin() || isKadiv() || resource.data.id_user == request.auth.uid);
+      allow create, update: if isAdmin();
+      allow delete: if false;
+    }
+    match /warga/{id} {
+      allow read: if isActive();
+      allow write: if isAdmin();
+    }
+    match /rumah/{id} {
+      allow read: if isActive() && (isAdmin() || isKadiv() || (isKader() && resource.data.id_wilayah in wilayahIds()));
+      allow write: if isAdmin();
+    }
+
+    match /pemeriksaan/{id} {
+      allow read: if isActive() && (isAdmin() || isKadiv()
+        || (isKader() && resource.data.id_kader == request.auth.uid));
+      allow create: if isKader()
+        && request.resource.data.id_kader == request.auth.uid
+        && request.resource.data.id_wilayah in wilayahIds()
+        && request.resource.data.status in ['draft', 'menunggu_verifikasi'];
+      allow update: if isActive() && (
+        // kader: hanya miliknya, hanya dari draft/perlu_revisi ke draft/menunggu
+        (isKader() && resource.data.id_kader == request.auth.uid
+          && request.resource.data.id_kader == resource.data.id_kader
+          && request.resource.data.id_wilayah == resource.data.id_wilayah
+          && resource.data.status in ['draft', 'perlu_revisi']
+          && request.resource.data.status in ['draft', 'menunggu_verifikasi'])
+        ||
+        // kadiv: hanya ubah status + catatan verifikasi
+        (isKadiv()
+          && resource.data.status == 'menunggu_verifikasi'
+          && request.resource.data.status in ['disetujui', 'perlu_revisi'])
+        || isAdmin()
+      );
+      allow delete: if isKader() && resource.data.id_kader == request.auth.uid && resource.data.status == 'draft';
+    }
+
+    match /verifikasi/{id} {
+      allow read: if isActive();
+      allow create: if isKadiv() && request.resource.data.id_verifikator == request.auth.uid;
+      allow update, delete: if false;
+    }
+    match /riwayat_status/{id} {
+      allow read: if isActive();
+      allow create: if isActive();
+      allow update, delete: if false;
+    }
+    match /tindak_lanjut/{id} {
+      allow read: if isActive();
+      allow create: if isActive() && (isKadiv() || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+    match /notifikasi/{id} {
+      allow read: if isActive() && resource.data.id_user == request.auth.uid;
+      allow create: if isActive();
+      allow update: if isActive() && resource.data.id_user == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['dibaca']);
+      allow delete: if false;
+    }
+    match /audit_log/{id} {
+      allow read: if isAdmin();
+      allow create: if isActive();
+      allow update, delete: if false;
+    }
+  }
+}
