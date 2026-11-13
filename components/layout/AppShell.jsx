@@ -14,6 +14,12 @@ export function AppShell({ user, children }) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [sidebarOn, setSidebarOn] = useState(true);
+
+  const toggleNav = () => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) setSidebarOn((v) => !v);
+    else setMobileOpen(true);
+  };
   const menus = MENUS[user.id_role] || [];
 
   const logout = async () => {
@@ -54,7 +60,7 @@ export function AppShell({ user, children }) {
       <div className="orb orb-a" /><div className="orb orb-b" /><div className="orb orb-c" />
 
       {/* Sidebar desktop */}
-      <aside className="hidden lg:flex flex-col fixed inset-y-0 left-0 w-64 z-40 sidebar-glass">
+      <aside className={`${sidebarOn ? 'hidden lg:flex' : 'hidden'} flex-col fixed inset-y-0 left-0 w-64 z-40 sidebar-glass`}>
         <div className="flex items-center gap-3 px-5 h-16 border-b divider">
           <div className="glow-icon !rounded-xl"><Bug size={20} /></div>
           <div>
@@ -89,11 +95,11 @@ export function AppShell({ user, children }) {
       )}
 
       {/* Main */}
-      <div className="lg:pl-64">
+      <div className={sidebarOn ? 'lg:pl-64' : ''}>
         <header className="sticky top-0 z-30 h-16 flex items-center justify-between px-4 sm:px-6 border-b border-emerald-500/15"
           style={{ background: 'rgba(3,12,8,.8)', backdropFilter: 'blur(14px)' }}>
           <div className="flex items-center gap-3">
-            <button className="btn btn-ghost !p-2.5 lg:hidden" onClick={() => setMobileOpen(true)}><Menu size={18} /></button>
+            <button className="btn btn-ghost !p-2.5" onClick={toggleNav} aria-label="Buka/tutup menu" title="Buka/tutup menu"><Menu size={18} /></button>
             <div className="lg:hidden flex items-center gap-2">
               <div className="glow-icon !p-2 !rounded-lg"><Bug size={16} /></div>
               <span className="font-extrabold text-sm gradient-text">SI-JUMANTIK</span>
