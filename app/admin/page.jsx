@@ -10,7 +10,7 @@ import { PageLoader } from '@/components/ui/Spinner';
 import { MonthlyBarChart, ResultPieChart } from '@/components/Charts';
 import { DataTable } from '@/components/DataTable';
 import { listUsers, listWilayah, listRumah, listPemeriksaan } from '@/services/firestore';
-import { where, orderBy, limit } from 'firebase/firestore';
+import { orderBy, limit } from 'firebase/firestore';
 import { STATUS, STATUS_LABELS, STATUS_BADGE, KESIMPULAN_LABELS } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 import { Users, MapPin, Home, FileCheck, Clock, CheckCircle2, AlertTriangle } from 'lucide-react';

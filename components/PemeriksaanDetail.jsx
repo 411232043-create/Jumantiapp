@@ -5,7 +5,7 @@ import { Card, CardHeader } from './ui/Card';
 import { Badge } from './ui/Badge';
 import { formatDate, formatDateTime } from '@/lib/utils';
 import { STATUS, STATUS_LABELS, STATUS_BADGE, KESIMPULAN_LABELS } from '@/lib/constants';
-import { listDocs, where, orderBy } from '@/services/firestore';
+import { listDocs, where } from '@/services/firestore';
 import { Bug, CheckCircle2, XCircle, ImageIcon } from 'lucide-react';
 
 export function PemeriksaanDetail({ p }) {
@@ -15,10 +15,11 @@ export function PemeriksaanDetail({ p }) {
 
   useEffect(() => {
     if (!p?.id) return;
-    listDocs('riwayat_status', where('id_pemeriksaan', '==', p.id), orderBy('created_at', 'desc'))
-      .then(setRiwayat).catch(() => {});
-    listDocs('verifikasi', where('id_pemeriksaan', '==', p.id), orderBy('created_at', 'desc'))
-      .then(setVerifikasi).catch(() => {});
+    const desc = (a, b) => (b.created_at?.seconds || 0) - (a.created_at?.seconds || 0);
+    listDocs('riwayat_status', where('id_pemeriksaan', '==', p.id))
+      .then((d) => setRiwayat(d.sort(desc))).catch(() => {});
+    listDocs('verifikasi', where('id_pemeriksaan', '==', p.id))
+      .then((d) => setVerifikasi(d.sort(desc))).catch(() => {});
   }, [p?.id]);
 
   if (!p) return null;

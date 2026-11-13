@@ -9,7 +9,7 @@ import { PageLoader } from '@/components/ui/Spinner';
 import { ExportButtons } from '@/components/ExportButtons';
 import { MonthlyBarChart, ResultPieChart } from '@/components/Charts';
 import { listPemeriksaan, listWilayah, listUsersByRole, getDocById } from '@/services/firestore';
-import { where, orderBy } from 'firebase/firestore';
+import { where } from 'firebase/firestore';
 import { STATUS, STATUS_LABELS, STATUS_BADGE, KESIMPULAN_LABELS } from '@/lib/constants';
 import { formatDate, hitungABJ, toDate } from '@/lib/utils';
 
@@ -31,9 +31,9 @@ export function LaporanPage({ title = 'Laporan Pemeriksaan', subtitle, showKader
 
   useEffect(() => {
     Promise.all([
-      listPemeriksaan(where('status', '==', STATUS.APPROVED), orderBy('tanggal_pemeriksaan', 'desc')),
+      listPemeriksaan(where('status', '==', STATUS.APPROVED)),
       listWilayah(), listUsersByRole('kader'), getDocById('pengaturan', 'app'),
-    ]).then(([p, w, k, s]) => { setItems(p); setWilayah(w); setKaders(k); setPengaturan(s); })
+    ]).then(([p, w, k, s]) => { setItems(p.sort((a,b)=> (b.tanggal_pemeriksaan||'').localeCompare(a.tanggal_pemeriksaan||''))); setWilayah(w); setKaders(k); setPengaturan(s); })
       .catch(console.error);
   }, []);
 

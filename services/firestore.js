@@ -176,8 +176,12 @@ export async function uploadFoto(file, uid) {
 }
 
 // ---------- notifikasi ----------
-export const listNotifikasi = (uid) =>
-  listDocs('notifikasi', where('id_user', '==', uid), orderBy('created_at', 'desc'), limit(30));
+export const listNotifikasi = async (uid) => {
+  const items = await listDocs('notifikasi', where('id_user', '==', uid));
+  return items
+    .sort((a, b) => (b.created_at?.seconds || 0) - (a.created_at?.seconds || 0))
+    .slice(0, 30);
+};
 
 export async function tandaiNotifikasiDibaca(id) {
   await updateDoc(doc(db, 'notifikasi', id), { dibaca: true });

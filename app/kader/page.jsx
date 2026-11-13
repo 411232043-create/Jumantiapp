@@ -11,7 +11,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { DataTable } from '@/components/DataTable';
 import { useCurrentUser } from '@/lib/auth/useCurrentUser';
 import { listWilayahByIds, listDocs, listPemeriksaan, listPenugasanKader, getDocById } from '@/services/firestore';
-import { where, orderBy, limit } from 'firebase/firestore';
+import { where } from 'firebase/firestore';
 import { STATUS, STATUS_LABELS, STATUS_BADGE, KESIMPULAN_LABELS } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 import { MapPin, Home, CheckCircle2, Bug, Clock, FileCheck, AlertTriangle, ClipboardPlus } from 'lucide-react';
