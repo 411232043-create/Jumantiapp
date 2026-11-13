@@ -68,7 +68,7 @@ export default function StatistikPage() {
 
       <Card className="p-5" hover={false}>
         <CardHeader title="Rekap per Wilayah" />
-        <div className="overflow-x-auto px-1 pb-2">
+        <div className="tbl-wrap overflow-x-auto mx-1 mb-2">
           <table className="tbl min-w-[560px]">
             <thead><tr><th>Wilayah</th><th>Diperiksa</th><th>Positif</th><th>Bebas</th><th>ABJ</th></tr></thead>
             <tbody>

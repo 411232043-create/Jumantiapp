@@ -66,7 +66,7 @@ export default function LoginPage() {
       <div className="app-bg" />
       <div className="orb orb-a" /><div className="orb orb-b" /><div className="orb orb-c" />
 
-      <div className="glass-card card-3d w-full max-w-md p-8 sm:p-10">
+      <div className="glass-card accent card-3d w-full max-w-md p-8 sm:p-10">
         <div className="flex flex-col items-center mb-8">
           <div className="glow-icon !p-4 !rounded-2xl mb-4"
             style={{ boxShadow: '0 0 40px rgba(163,230,53,.35), inset 0 1px 0 rgba(255,255,255,.15)' }}>

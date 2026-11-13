@@ -28,7 +28,7 @@ export function DataTable({ columns, data, searchKeys = [], searchPlaceholder = 
         </div>
         {filters}
       </div>
-      <div className="overflow-x-auto -mx-1 px-1">
+      <div className="tbl-wrap overflow-x-auto">
         <table className="tbl min-w-[640px]">
           <thead>
             <tr>{columns.map((c) => <th key={c.key}>{c.label}</th>)}</tr>
@@ -41,8 +41,8 @@ export function DataTable({ columns, data, searchKeys = [], searchPlaceholder = 
             ))}
           </tbody>
         </table>
-        {!rows.length && (empty || <EmptyState />)}
       </div>
+      {!rows.length && (empty || <EmptyState />)}
       {filtered.length > pageSize && (
         <div className="flex items-center justify-between mt-4 text-sm text-muted">
           <span>Menampilkan {safePage * pageSize + 1}–{Math.min((safePage + 1) * pageSize, filtered.length)} dari {filtered.length}</span>

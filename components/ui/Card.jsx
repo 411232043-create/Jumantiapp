@@ -1,6 +1,6 @@
 export function Card({ children, className = '', hover = true, ...props }) {
   return (
-    <div className={`glass-card ${hover ? 'card-3d' : ''} ${className}`} {...props}>
+    <div className={`glass-card ${hover ? 'card-3d' : 'plain'} ${className}`} {...props}>
       {children}
     </div>
   );

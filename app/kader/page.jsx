@@ -60,7 +60,7 @@ export default function KaderDashboard() {
         subtitle={`Wilayah tugas: ${data.wilayah.map((w) => w.nama_wilayah).join(', ') || 'Belum ditugaskan'}`}
         action={<Link href="/kader/pemeriksaan/baru" className="btn btn-primary"><ClipboardPlus size={16} /> Pemeriksaan Baru</Link>} />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
         <StatCard icon={MapPin} label="Wilayah Tugas" value={data.wilayah.length} />
         <StatCard icon={Home} label="Rumah di Wilayah" value={data.rumah.length} />
         <StatCard icon={CheckCircle2} label="Sudah Diperiksa" value={data.rumahDiperiksa} sub="periode pemantauan" />

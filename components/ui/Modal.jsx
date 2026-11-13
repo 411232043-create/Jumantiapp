@@ -14,7 +14,7 @@ export function Modal({ open, onClose, title, children, wide = false }) {
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
-      <div className={`glass-card relative w-full ${wide ? 'max-w-3xl' : 'max-w-lg'} max-h-[90vh] overflow-y-auto`}>
+      <div className={`glass-card accent relative w-full ${wide ? 'max-w-3xl' : 'max-w-lg'} max-h-[90vh] overflow-y-auto`}>
         <div className="flex items-center justify-between px-5 pt-5 pb-3 sticky top-0 z-10"
           style={{ background: 'linear-gradient(150deg, rgba(10,34,24,.95), rgba(4,16,11,.95))' }}>
           <h3 className="font-bold">{title}</h3>

@@ -54,8 +54,7 @@ export function AppShell({ user, children }) {
       <div className="orb orb-a" /><div className="orb orb-b" /><div className="orb orb-c" />
 
       {/* Sidebar desktop */}
-      <aside className="hidden lg:flex flex-col fixed inset-y-0 left-0 w-64 z-40 glass-card !rounded-none !border-0 border-r border-emerald-500/15"
-        style={{ background: 'linear-gradient(180deg, rgba(5,20,14,.92), rgba(3,12,8,.94))' }}>
+      <aside className="hidden lg:flex flex-col fixed inset-y-0 left-0 w-64 z-40 sidebar-glass">
         <div className="flex items-center gap-3 px-5 h-16 border-b divider">
           <div className="glow-icon !rounded-xl"><Bug size={20} /></div>
           <div>
@@ -76,8 +75,7 @@ export function AppShell({ user, children }) {
       {mobileOpen && (
         <div className="fixed inset-0 z-[70] lg:hidden">
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
-          <aside className="absolute inset-y-0 left-0 w-72 flex flex-col"
-            style={{ background: 'linear-gradient(180deg, rgba(5,20,14,.98), rgba(3,12,8,.98))' }}>
+          <aside className="absolute inset-y-0 left-0 w-72 flex flex-col sidebar-glass">
             <div className="flex items-center justify-between px-5 h-16 border-b divider">
               <div className="flex items-center gap-3">
                 <div className="glow-icon !rounded-xl"><Bug size={20} /></div>

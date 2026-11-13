@@ -37,7 +37,7 @@ export function NotificationBell({ user }) {
       {open && (
         <>
           <div className="fixed inset-0 z-[80]" onClick={() => setOpen(false)} />
-          <div className="glass-card absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto z-[85] p-2">
+          <div className="glass-card accent absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto z-[85] p-2">
             <p className="text-xs font-bold uppercase tracking-wider text-muted px-3 py-2">Notifikasi</p>
             {!items.length && <p className="text-sm text-muted px-3 py-4">Belum ada notifikasi.</p>}
             {items.map((n) => (

@@ -59,7 +59,7 @@ export default function KadivDashboard() {
       <PageHeader title="Dashboard Monitoring" subtitle="Pantau aktivitas kader dan hasil pemeriksaan jentik"
         action={<Link href="/kepala-divisi/verifikasi" className="btn btn-primary"><FileCheck size={16} /> Verifikasi Laporan {data.pending > 0 && `(${data.pending})`}</Link>} />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
         <StatCard icon={Users} label="Kader Aktif" value={data.kadersAktif.length} />
         <StatCard icon={MapPin} label="Wilayah" value={data.wilayah.length} />
         <StatCard icon={Home} label="Rumah Terdaftar" value={data.rumah.length} />

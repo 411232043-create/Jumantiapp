@@ -58,7 +58,7 @@ export function PemeriksaanDetail({ p }) {
       <Card className="p-5" hover={false}>
         <CardHeader title="Pemeriksaan Tempat Penampungan Air"
           subtitle={`${(p.detail || []).length} tempat diperiksa`} />
-        <div className="overflow-x-auto px-1 pb-2">
+        <div className="tbl-wrap overflow-x-auto mx-1 mb-2">
           <table className="tbl min-w-[560px]">
             <thead><tr><th>Tempat Penampungan</th><th>Kondisi</th><th>Jumlah</th><th>Jentik</th><th>Catatan</th></tr></thead>
             <tbody>

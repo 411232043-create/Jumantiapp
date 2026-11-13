@@ -127,9 +127,9 @@ export function LaporanPage({ title = 'Laporan Pemeriksaan', subtitle, showKader
         </div>
       </Card>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4">
         {[['Rumah Diperiksa', stats.total], ['Positif Jentik', stats.positif], ['Bebas Jentik', stats.bebas], ['ABJ', `${stats.abj}%`]].map(([l, v]) => (
-          <Card key={l} className="p-4 text-center">
+          <Card key={l} className="p-4 text-center" hover={false}>
             <p className="text-xs text-muted uppercase tracking-wider font-semibold">{l}</p>
             <p className="text-2xl font-extrabold gradient-text mt-1">{v}</p>
           </Card>
@@ -147,7 +147,7 @@ export function LaporanPage({ title = 'Laporan Pemeriksaan', subtitle, showKader
 
       <Card className="p-5" hover={false}>
         <CardHeader title="Rincian Data" subtitle={`${filtered.length} laporan disetujui`} />
-        <div className="overflow-x-auto px-1 pb-2">
+        <div className="tbl-wrap overflow-x-auto mx-1 mb-2">
           <table className="tbl min-w-[800px]">
             <thead><tr><th>Tanggal</th><th>Wilayah</th><th>Kader</th><th>Pemilik Rumah</th><th>Alamat</th><th>Hasil</th></tr></thead>
             <tbody>

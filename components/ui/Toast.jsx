@@ -23,7 +23,7 @@ export function ToastProvider({ children }) {
       <div className="fixed bottom-5 right-5 z-[100] flex flex-col gap-2 max-w-sm">
         {toasts.map((t) => (
           <div key={t.id}
-            className="glass-card px-4 py-3 flex items-start gap-3 text-sm animate-[slideIn_.25s_ease]">
+            className="glass-card plain px-4 py-3 flex items-start gap-3 text-sm animate-[slideIn_.25s_ease]">
             {t.type === 'success' && <CheckCircle2 size={18} className="text-emerald-400 shrink-0 mt-0.5" />}
             {t.type === 'error' && <AlertCircle size={18} className="text-rose-400 shrink-0 mt-0.5" />}
             {t.type === 'info' && <Info size={18} className="text-teal-300 shrink-0 mt-0.5" />}

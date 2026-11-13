@@ -56,7 +56,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <PageHeader title="Dashboard Admin" subtitle="Ringkasan seluruh aktivitas pemantauan jentik nyamuk" />
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
         <StatCard icon={Users} label="Total Pengguna" value={data.users.length} />
         <StatCard icon={Users} label="Kader" value={data.kader.length} />
         <StatCard icon={Users} label="Kepala Divisi" value={data.kadiv.length} />

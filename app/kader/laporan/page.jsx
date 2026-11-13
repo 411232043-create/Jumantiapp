@@ -42,7 +42,7 @@ export default function LaporanSayaPage() {
   return (
     <div>
       <PageHeader title="Laporan Saya" subtitle="Rekapitulasi laporan yang telah Anda kirim" />
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-5">
         {ringkasan.map(({ l, v }) => (
           <Card key={l} className="p-4 text-center">
             <p className="text-[11px] text-muted uppercase tracking-wider font-semibold">{l}</p>
