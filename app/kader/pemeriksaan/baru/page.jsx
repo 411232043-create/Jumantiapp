@@ -13,7 +13,8 @@ import { useCurrentUser } from '@/lib/auth/useCurrentUser';
 import { listDocs, listWilayahByIds, getDocById, simpanPemeriksaan, uploadFoto, updateDocById } from '@/services/firestore';
 import { where } from 'firebase/firestore';
 import { TPA_LIST, KONDISI_TPA, STATUS } from '@/lib/constants';
-import { Save, Send, X, Plus, Trash2, Bug } from 'lucide-react';
+import { Save, X, Plus, Trash2, Bug } from 'lucide-react';
+import { SendButton } from '@/components/SendButton';
 
 const DETAIL_KOSONG = { nama_tempat_penampungan: 'Bak Mandi', kondisi: 'Baik', ditemukan_jentik: false, jumlah_wadah: 1, catatan: '' };
 
@@ -78,7 +79,7 @@ function FormInner() {
 
   const simpan = async (kirim) => {
     const err = validasi();
-    if (err) return toast.error(err);
+    if (err) { toast.error(err); return false; }
     setSaving(kirim ? 'kirim' : 'draft');
     try {
       // upload foto baru
@@ -109,8 +110,10 @@ function FormInner() {
       });
       toast.success(kirim ? 'Laporan dikirim untuk verifikasi.' : 'Draft tersimpan.');
       router.push(`/kader/pemeriksaan/${id}`);
+      return true;
     } catch (e) {
       toast.error(e.message);
+      return false;
     } finally {
       setSaving(null);
     }
@@ -215,14 +218,14 @@ function FormInner() {
           </div>
         </Card>
 
-        <div className="flex flex-wrap gap-3 justify-end pb-8">
+        <div className="flex flex-wrap gap-3 items-center justify-end pb-8">
           <button className="btn btn-ghost" onClick={() => router.back()}><X size={15} /> Batalkan</button>
           <button className="btn btn-ghost" onClick={() => simpan(false)} disabled={!!saving}>
             {saving === 'draft' ? <Spinner size={14} /> : <Save size={15} />} Simpan Draft
           </button>
-          <button className="btn btn-primary" onClick={() => simpan(true)} disabled={!!saving}>
-            {saving === 'kirim' ? <Spinner size={14} /> : <Send size={15} />} Kirim Laporan
-          </button>
+          <div className="send-stage-wrap">
+            <SendButton onSend={() => simpan(true)} disabled={!!saving} />
+          </div>
         </div>
       </div>
     </div>
