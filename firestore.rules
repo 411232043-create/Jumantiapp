@@ -26,7 +26,9 @@ service cloud.firestore {
 
     match /users/{id} {
       // user docs dibuat/diubah via Admin SDK (API route). Client boleh membaca & update profil terbatas.
-      allow read: if isActive() && (isAdmin() || isKadiv() || request.auth.uid == id);
+      allow read: if isActive() && (isAdmin() || isKadiv() || request.auth.uid == id
+        // kader boleh membaca data kadiv — dipakai untuk kirim notifikasi laporan masuk
+        || (isKader() && resource.data.id_role == 'kepala_divisi'));
       allow create: if isAdmin();
       allow update: if isAdmin()
         || (isActive() && request.auth.uid == id
