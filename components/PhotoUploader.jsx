@@ -18,7 +18,7 @@ export function PhotoUploader({ fotos, onChange, uid }) {
         continue;
       }
       if (file.size > MAX_FOTO_SIZE) {
-        toast.error(`${file.name}: ukuran maksimal 5 MB.`);
+        toast.error(`${file.name}: ukuran maksimal 700 KB.`);
         continue;
       }
       next.push({ file, preview: URL.createObjectURL(file), nama_file: file.name });
@@ -47,7 +47,7 @@ export function PhotoUploader({ fotos, onChange, uid }) {
       </div>
       <input ref={inputRef} type="file" accept="image/jpeg,image/jpg,image/png" multiple className="hidden"
         onChange={(e) => { addFiles([...e.target.files]); e.target.value = ''; }} />
-      <p className="text-[11px] text-muted mt-2">Format JPG/JPEG/PNG, maksimal 5 MB per foto.</p>
+      <p className="text-[11px] text-muted mt-2">Format JPG/JPEG/PNG, maksimal 700 KB per foto.</p>
     </div>
   );
 }

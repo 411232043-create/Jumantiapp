@@ -42,13 +42,13 @@ if (existing) {
 } else {
   const { error: cErr } = await supabase.storage.createBucket(bucket, {
     public: true,
-    fileSizeLimit: 5 * 1024 * 1024,
+    fileSizeLimit: 700 * 1024,
     allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png'],
   });
   if (cErr) {
     console.error('Gagal membuat bucket:', cErr.message);
     process.exit(1);
   }
-  console.log(`✓ Bucket "${bucket}" dibuat (public, max 5MB, JPG/PNG)`);
+  console.log(`✓ Bucket "${bucket}" dibuat (public, max 700KB, JPG/PNG)`);
 }
 console.log('Provisioning Supabase Storage selesai.');

@@ -3,7 +3,7 @@ import { getSessionUser } from '@/lib/auth/session';
 import { supabaseAdmin, FOTO_BUCKET } from '@/lib/supabase/server';
 
 const ALLOWED = ['image/jpeg', 'image/jpg', 'image/png'];
-const MAX_SIZE = 5 * 1024 * 1024;
+const MAX_SIZE = 700 * 1024;
 
 export async function POST(request) {
   const user = await getSessionUser();
@@ -19,7 +19,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Hanya JPG/JPEG/PNG yang diperbolehkan.' }, { status: 400 });
     }
     if (file.size > MAX_SIZE) {
-      return NextResponse.json({ error: 'Ukuran maksimal 5 MB.' }, { status: 400 });
+      return NextResponse.json({ error: 'Ukuran maksimal 700 KB.' }, { status: 400 });
     }
 
     const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
