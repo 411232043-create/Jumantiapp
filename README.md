@@ -82,3 +82,4 @@ docs/                # panduan deployment & akun awal
 - FCM (push notification web) belum diaktifkan; notifikasi in-app (koleksi
   `notifikasi` + lonceng di topbar) sudah berfungsi.
 - Lihat `docs/DEPLOYMENT.md` untuk panduan deploy ke Vercel.
+# JumantikApp
