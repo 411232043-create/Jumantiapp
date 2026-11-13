@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@firebase/app": "^0.13.2",
+    "@supabase/supabase-js": "^2.119.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.23",
     "firebase": "^11.10.0",

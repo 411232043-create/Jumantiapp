@@ -4,7 +4,6 @@ import {
   collection, doc, addDoc, setDoc, updateDoc, deleteDoc, getDoc, getDocs,
   query, where, orderBy, limit, serverTimestamp, writeBatch, arrayUnion,
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '@/lib/firebase/client';
 import { snapToArray } from '@/lib/utils';
 import { STATUS } from '@/lib/constants';
@@ -165,14 +164,14 @@ export async function verifikasiLaporan({ pemeriksaan, keputusan, catatan, verif
   await batch.commit();
 }
 
-// ---------- foto ----------
-export async function uploadFoto(file, uid) {
-  const ext = file.name.split('.').pop() || 'jpg';
-  const path = `dokumentasi/${uid}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  const storageRef = ref(storage, path);
-  await uploadBytes(storageRef, file, { contentType: file.type });
-  const url = await getDownloadURL(storageRef);
-  return { path, url, nama_file: file.name };
+// ---------- foto (upload via API → Supabase Storage) ----------
+export async function uploadFoto(file) {
+  const form = new FormData();
+  form.append('file', file);
+  const res = await fetch('/api/upload/foto', { method: 'POST', body: form });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Upload foto gagal.');
+  return { path: data.path, url: data.url, nama_file: file.name };
 }
 
 // ---------- notifikasi ----------
