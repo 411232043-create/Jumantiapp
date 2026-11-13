@@ -7,6 +7,7 @@ import { auth } from '@/lib/firebase/client';
 import { useToast } from '@/components/ui/Toast';
 import { Spinner } from '@/components/ui/Spinner';
 import { Bug, Mail, Lock, LogIn } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -65,6 +66,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6">
       <div className="app-bg" />
       <div className="orb orb-a" /><div className="orb orb-b" /><div className="orb orb-c" />
+
+      <div className="fixed top-4 right-4 z-50"><ThemeToggle /></div>
 
       <div className="glass-card accent card-3d w-full max-w-md p-8 sm:p-10">
         <div className="flex flex-col items-center mb-8">

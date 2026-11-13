@@ -8,7 +8,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="id">
+    <html lang="id" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "try{var t=localStorage.getItem('sijumantik-theme');if(t){document.documentElement.dataset.theme=t;}}catch(e){}",
+          }}
+        />
+      </head>
       <body>
         <ToastProvider>{children}</ToastProvider>
       </body>

@@ -8,6 +8,7 @@ import { auth } from '@/lib/firebase/client';
 import { MENUS } from '@/lib/menus';
 import { ROLE_LABELS } from '@/lib/constants';
 import { NotificationBell } from '@/components/NotificationBell';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { Bug, LogOut, Menu, X } from 'lucide-react';
 
 export function AppShell({ user, children }) {
@@ -47,7 +48,7 @@ export function AppShell({ user, children }) {
           <span>{m.label}</span>
         </Link>
       ))}
-      <button onClick={logout} className="side-link text-left mt-2 !text-rose-300/80 hover:!text-rose-200">
+      <button onClick={logout} className="side-link text-left mt-2 danger-text">
         <LogOut size={17} />
         <span>Logout</span>
       </button>
@@ -97,7 +98,7 @@ export function AppShell({ user, children }) {
       {/* Main */}
       <div className={sidebarOn ? 'lg:pl-64' : ''}>
         <header className="sticky top-0 z-30 h-16 flex items-center justify-between px-4 sm:px-6 border-b border-emerald-500/15"
-          style={{ background: 'rgba(3,12,8,.8)', backdropFilter: 'blur(14px)' }}>
+          style={{ background: 'var(--header-bg)', backdropFilter: 'blur(14px)' }}>
           <div className="flex items-center gap-3">
             <button className="btn btn-ghost !p-2.5" onClick={toggleNav} aria-label="Buka/tutup menu" title="Buka/tutup menu"><Menu size={18} /></button>
             <div className="lg:hidden flex items-center gap-2">
@@ -106,6 +107,7 @@ export function AppShell({ user, children }) {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <NotificationBell user={user} />
             <div className="hidden sm:flex flex-col items-end mr-1">
               <span className="text-[13px] font-semibold leading-tight">{user.nama}</span>
