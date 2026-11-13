@@ -83,3 +83,4 @@ docs/                # panduan deployment & akun awal
   `notifikasi` + lonceng di topbar) sudah berfungsi.
 - Lihat `docs/DEPLOYMENT.md` untuk panduan deploy ke Vercel.
 # JumantikApp
+# Jumantiapp
