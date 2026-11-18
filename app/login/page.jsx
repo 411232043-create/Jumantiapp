@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase/client';
 import { useToast } from '@/components/ui/Toast';
@@ -21,8 +21,10 @@ export default function LoginPage() {
     e.preventDefault();
     if (loading) return;
     setLoading(true);
+    let signedIn = false;
     try {
       const cred = await signInWithEmailAndPassword(auth, email.trim(), password);
+      signedIn = true;
       const idToken = await cred.user.getIdToken();
       const res = await fetch('/api/auth/session', {
         method: 'POST',
@@ -33,6 +35,13 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.error || 'Gagal membuat sesi.');
       router.replace(data.home || '/');
     } catch (err) {
+      if (signedIn) {
+        try {
+          await signOut(auth);
+        } catch (signOutError) {
+          console.error('Gagal membersihkan autentikasi Firebase:', signOutError?.code || 'unknown');
+        }
+      }
       const msg = {
         'auth/invalid-credential': 'Email atau password salah.',
         'auth/user-not-found': 'Email atau password salah.',

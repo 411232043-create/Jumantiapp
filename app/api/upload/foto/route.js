@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'node:crypto';
 import { getSessionUser } from '@/lib/auth/session';
 import { supabaseAdmin, FOTO_BUCKET } from '@/lib/supabase/server';
 
@@ -8,6 +9,9 @@ const MAX_SIZE = 700 * 1024;
 export async function POST(request) {
   const user = await getSessionUser();
   if (!user) return NextResponse.json({ error: 'Sesi tidak valid. Silakan login ulang.' }, { status: 401 });
+  if (user.id_role !== 'kader') {
+    return NextResponse.json({ error: 'Hanya kader yang dapat mengunggah foto pemeriksaan.' }, { status: 403 });
+  }
 
   try {
     const form = await request.formData();
@@ -22,8 +26,8 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Ukuran maksimal 700 KB.' }, { status: 400 });
     }
 
-    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
-    const path = `dokumentasi/${user.uid}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const ext = file.type === 'image/png' ? 'png' : 'jpg';
+    const path = `dokumentasi/${user.uid}/${Date.now()}-${randomUUID()}.${ext}`;
     const buffer = Buffer.from(await file.arrayBuffer());
 
     const supabase = supabaseAdmin();
@@ -35,7 +39,7 @@ export async function POST(request) {
     const { data } = supabase.storage.from(FOTO_BUCKET).getPublicUrl(path);
     return NextResponse.json({ path, url: data.publicUrl, nama_file: file.name });
   } catch (err) {
-    console.error('Upload foto gagal:', err);
-    return NextResponse.json({ error: err.message || 'Upload foto gagal.' }, { status: 500 });
+    console.error('Upload foto gagal:', err?.code || err?.name || 'unknown');
+    return NextResponse.json({ error: 'Upload foto gagal. Periksa konfigurasi Supabase server.' }, { status: 500 });
   }
 }
